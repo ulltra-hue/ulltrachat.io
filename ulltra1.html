@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ulltra AI Chat</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            line-height: 1.8;
+            color: #f4f4f9; /* Light text color for contrast */
+            background-image: url('https://images6.alphacoders.com/332/332761.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center elements horizontally */
+        }
+        .chat-container {
+            flex: 1; /* Allow chat container to take up more space */
+            padding: 20px;
+            background-color: rgba(51, 51, 51, 0.8); /* Darker chat container with transparency */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 100%; /* Full width */
+        }
+        h1, h2, h3 {
+            color: #ffcc00; /* Gold color for headings */
+        }
+        .chat-box {
+            margin-bottom: 20px;
+        }
+        .chat-box input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #444; /* Dark input background */
+            color: #f4f4f9; /* Light text color */
+        }
+        .chat-box button {
+            padding: 10px 20px;
+            background-color: #ff0000; /* Red button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .chat-box button:hover {
+            background-color: #cc0000; /* Darker red on hover */
+        }
+        .chat-log {
+            margin-top: 20px;
+            max-height: 300px; /* Limit height */
+            overflow-y: auto; /* Scroll if overflow */
+        }
+        .chat-log p {
+            margin: 10px 0;
+            color: #f4f4f9; /* Light text color for chat log */
+        }
+        .instagram-link {
+            color: #ffcc00; /* Gold color for the link */
+            text-decoration: none; /* Remove underline */
+            font-size: 18px; /* Font size for the link */
+            margin-top: 20px; /* Add some space above the link */
+        }
+        .instagram-link:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+        .feedback {
+            margin-top: 20px;
+        }
+        .quick-replies {
+            margin-top: 10px;
+        }
+        .quick-replies button {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #007bff; /* Blue button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .quick-replies button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <h1>ulltra AI Chat</h1>
+        <p>I'm here to assist you with your questions and provide information.</p>
+        <div class="chat-box">
+            <input type="text" id="userQuery" placeholder="Ask me anything..." aria-label="User query">
+            <button onclick="sendQuery()">Send</button>
+        </div>
+        <div class="chat-log" id="chatLog"></div>
+        <div class="quick-replies" id="quickReplies"></div>
+        <a href="https://www.instagram.com/ulltraofficial/" class="instagram-link" target="_blank">Follow me on Instagram</a>
+        <div class="feedback">
+            <p>Did you find this helpful?</p>
+            <button onclick="giveFeedback('positive')">👍</button>
+            <button onclick="giveFeedback('negative')">👎</button>
+        </div>
+        <div id="points" style="color: #ffcc00; margin-top: 20px;">Points: <span id="pointsCount">0</span></div>
+    </div>
+
+    <script>
+        let points = 0; // Initialize points
+
+        class DeathNoteAI {
+            constructor(name) {
+                this.name = name;
+            }
+
+            respondToQuery(query) {
+                const lowerCaseQuery = query.toLowerCase(); // Normalize the query to lower case
+                const responses = {
+                    "hi": ["Hello! How can I assist you today?", "Hi there! What can I do for you?", "Greetings! What would you like to know?"],
+                    "hello": ["Hi! What would you like to talk about?", "Hello! I'm here to help."],
+                    "how are you": ["I am always in control. How about you?", "I'm just a program, but I'm here to assist you!"],
+                    "what's your name": ["I am ulltra, your AI assistant. And you?", "You can call me ulltra!"],
+                    "who created you": ["I was created by ulltraofficial.", "ulltraofficial is my creator."],
+                    "what is your goal": ["My goal is to assist you with your queries and provide information.", "I aim to help you find answers to your questions."],
+                    "tell me a joke": ["Why did the scarecrow win an award? Because he was outstanding in his field!", "What do you call fake spaghetti? An impasta!"],
+                    "tell me a fact": ["Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3000 years old and still edible!", "Here's a fun fact: Octopuses have three hearts!"],
+                    "what is the meaning of life": ["The meaning of life is subjective and varies from person to person. What do you think it is?", "Many believe it's about finding happiness and fulfillment."],
+                    "what is love": ["Love is a complex emotion that can bring joy and pain. It's about connection and understanding.", "Love can be both a strength and a weakness."],
+                    "help": ["Help? I can show you the path to true justice, but it requires a strong will.", "I'm here to assist you. What do you need help with?"],
+                    "default": ["I'm not sure how to answer that. Can you ask something else?", "That's an interesting question! Let me think..."]
+                };
+
+                // Check if the query matches any keywords
+                for (const key in responses) {
+                    if (lowerCaseQuery.includes(key)) {
+                        const randomResponse = responses[key][Math.floor(Math.random() * responses[key].length)];
+                        return randomResponse;
+                    }
+                }
+
+                // Default response if no keywords match
+                return responses["default"][Math.floor(Math.random() * responses["default"].length)];
+            }
+        }
+
+        const myAI = new DeathNoteAI('ulltra');
+
+        function sendQuery() {
+            const userQuery = document.getElementById('userQuery').value.trim(); // Trim whitespace
+            if (!userQuery) {
+                alert("Please enter a question."); // Error handling for empty input
+                return;
+            }
+            const response = myAI.respondToQuery(userQuery);
+            logInteraction(userQuery, response); // Log interaction
+            const chatLog = document.getElementById('chatLog');
+            chatLog.innerHTML += `<p>You: ${userQuery}</p><p>ulltra: ${response}</p>`;
+            document.getElementById('userQuery').value = ''; // Clear input field
+            updatePoints(10); // Award points for interaction
+            suggestQuickReplies(userQuery); // Suggest quick replies based on user input
+        }
+
+        function logInteraction(userQuery, response) {
+            console.log(`User: ${userQuery}, AI: ${response}`);
+            // Here you can send the data to your server for analysis
+        }
+
+        function giveFeedback(feedback) {
+            console.log(`User feedback: ${feedback}`);
+            // Store feedback for analysis
+        }
+
+        function updatePoints(amount) {
+            points += amount; // Increase points
+            document.getElementById('pointsCount').innerText = points; // Update points display
+        }
+
+        function suggestQuickReplies(userQuery) {
+            const quickRepliesContainer = document.getElementById('quickReplies');
+            quickRepliesContainer.innerHTML = ''; // Clear previous quick replies
+
+            // Simple logic to suggest quick replies based on user input
+            if (userQuery.includes("joke")) {
+                quickRepliesContainer.innerHTML += '<button onclick="sendQuickReply(\'tell me a joke\')">Tell me a joke</button>';
+            }
+            if (userQuery.includes("fact")) {
+                quickRepliesContainer.innerHTML += '<button onclick="sendQuickReply(\'tell me a fact\')">Tell me a fact</button>';
+            }
+            if (userQuery.includes("love")) {
+                quickRepliesContainer.innerHTML += '<button onclick="sendQuickReply(\'what is love\')">What is love?</button>';
+            }
+        }
+
+        function sendQuickReply(query) {
+            document.getElementById('userQuery').value = query; // Set the input to the quick reply
+            sendQuery(); // Call sendQuery to process the quick reply
+        }
+    </script>
+</body>
+</html>
